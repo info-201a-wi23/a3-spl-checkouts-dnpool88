@@ -1,8 +1,6 @@
 library(dplyr)
 library(ggplot2)
 
-df <- read.csv("Desktop/INFO_201/a3-spl-checkouts-dnpool88/2013-2023-5-Checkouts-SPL.csv", stringsAsFactors = FALSE)
-
 m_df <- df %>% group_by(MaterialType, CheckoutMonth, CheckoutYear, Title) %>% summarize(Checkouts = sum(Checkouts))
 material_df <- m_df %>% filter(Title == "Educated : a memoir / Tara Westover.", Checkouts > 50)
 

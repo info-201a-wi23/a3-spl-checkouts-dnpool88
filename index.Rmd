@@ -11,60 +11,55 @@ The dataset I explored for this assignment was from the Seattle Public Library. 
 ```{r, echo = FALSE}
 library(dplyr)
 library(ggplot2)
-
 df <- read.csv("Desktop/INFO_201/2013-2023-5-Checkouts-SPL.csv", stringsAsFactors = FALSE)
 ```
 
-The first value I found interesting is month with the highest # of checkouts:
+The first value I found interesting is the months with their highest # of checkouts:
 ```{r, echo = FALSE}
-df %>% group_by(CheckoutMonth) %>% filter(max(Checkouts))
+df %>% group_by(CheckoutMonth) %>% summarize(max(Checkouts))
 ```
-And the second value I found interesting is month with the lowest # of checkouts:
+And the second value I found interesting is that the months with the lowest # of checkouts are all the same:
 ```{r, echo = FALSE}
-df %>% group_by(CheckoutMonth) %>% filter(min(Checkouts))
+df %>% group_by(CheckoutMonth) %>% summarize(min(Checkouts))
 ```
 The third value I found interesting was the different types of materials that were classified:
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 df %>% summarize(length(unique(MaterialType)))
 ```
 The fourth value I want to share is about is the number of checkouts over the years:
-```{r, echo = FALSE}
-checkout_df <- df %>% group_by(CheckoutYear) %>% summarize(TotalCheckouts = sum(Checkouts)) %>% top_n(10)
+```{r, echo = FALSE, warning = FALSE}
+df %>% group_by(CheckoutYear) %>% summarize(TotalCheckouts = sum(Checkouts)) %>% top_n(10)
 ```
 The last value I thought was cool was the number of checkouts for this specific book for each material type:
 ```{r}
-df %>% group_by(MaterialType) %>% filter(Title == "Educated : a memoir / Tara Westover.", Total = sum(Checkouts))
+df %>% group_by(MaterialType) %>% filter(Title == "Educated : a memoir / Tara Westover.") %>% summarize(Total = sum(Checkouts))
 ```
 
 
 ### The Dataset
 
-- Who collected/published the data?  
-- What are the parameters of the data (dates, number of checkouts, kinds of books, etc.)?
-- How was the data collected or generated?  
-- Why was the data collected?  
-- What, if any, ethical questions do you need to consider when working with this data?  
-- What are possible limitations or problems with this data?   (at least 200 words)
-
-This data was collected by Seattle Public Libraries, whose dataset contains information dating back to 2005. The dataset I chose contains data on the year (2013-2023), month, # of checkouts for each item, whether the item was digital or physical, the author, the subject, the checkout type, the publisher and publication year, the ISBN,  and the type of item (book, cd, etc.). According to their website, the data was collected to improve "the quality of life for our residents; increasing transparency, accountability and comparability; promoting economic development and research; and improving internal performance management". The only ethical question I can think to consider is that the authors that are not listed in the database won't get the recognition they deserve. A couple limitations/ problems with the dataset is that not all the data points are filled; there are a couple rows without an ISBN or an author, especially on videos. Another limitation is that there is no data on the Seattle Public Library locations, which I would find very interesting.
+This data was collected by Seattle Public Libraries, whose dataset contains information dating back to 2005. The dataset I chose contains data on the year (2013-2023), month, # of checkouts for each item, whether the item was digital or physical, the author, the subject, the checkout type, the publisher and publication year, the ISBN,  and the type of item (book, cd, etc.). According to their website, the data was collected to improve "the quality of life for our residents; increasing transparency, accountability and comparability; promoting economic development and research; and improving internal performance management". The only ethical question I can think to consider is that the authors that are not listed in the database won't get the recognition they deserve, especially the authors of videos. A couple limitations/ problems with the dataset is that not all the data points are filled; there are a couple rows without an ISBN or an author, especially on videos. Another limitation is that there is no data on the Seattle Public Library locations, which I would find very interesting.
 
 
 ### First Trends Over Time Chart
 
-```{r, echo = FALSE, code = readLines("chart_1.R")}
+```{r, echo = FALSE, warning = FALSE, code = readLines("Desktop/Info_201/a3-spl-checkouts-dnpool88/chart_1.R")}
 
 ```
+
 The first chart I included shows the number of checkouts over the years. I chose to explore this because I was curious how the pandemic affected the libraries, and if they were able to recover. The graph shows the massive drop off starting in 2020. It is assuring to see the # of checkouts rise in 2021 & 2022, and I am curious to see if that trend continues to pre-pandemic numbers. I also found it interesting how similar the numbers from 2013-2019 are, as there is not much of a difference over those years.
 
 ### Second Trends Over Time Chart
 
-```{r, echo = FALSE, code = readLines("chart_2.R")}
+```{r, echo = FALSE, warning = FALSE, code = readLines("Desktop/Info_201/a3-spl-checkouts-dnpool88/chart_2.R")}
 ```
+
 The second chart I wanted to visualize shows the max number of checkouts in a day for each month. This includes all the years, and just shows the year with the highest checkout number. The graph also has two plots; digital items and physical items. I wanted to see what month was the busiest for libraries, and which type of item was more popular. It's really interesting to see physical checkouts really consistent over the months, where as digital checkouts are all over the place, with the 2 highest and lowest checkout numbers.
 
 ### Your Choice
 
-```{r, echo = FALSE, code = readLines("chart_3.R")}
+```{r, echo = FALSE, warning = FALSE, code = readLines("Desktop/Info_201/a3-spl-checkouts-dnpool88/chart_3.R")}
 ```
+
 The last chart I wanted to visualize shows a histogram of the book Educated : a memoir / Tara Westover. The histogram is based of the number of checkouts per month for this specific book, and shows the count by the number of months. I randomly chose this book because I saw it was popular. Looking at the graph, I find it very interesting that the book had the highest number of months with the most amount of checkouts, as trends usually only last for a bit before dying down. Here the book had an extremely long peak, which I feel is pretty uncommon.
 
